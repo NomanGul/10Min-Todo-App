@@ -1,24 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [text, setText] = useState(""),
+   [todos, setTodos] = useState([])
+
+  const add = () => {
+    return setTodos([...todos, text])
+  }
+
+  const deleteTodo = (i) => {
+    const updatedTodos = todos.filter((todo, index) => index !== i)
+    console.log("TCL: deleteTodo -> updatedTodos", updatedTodos)
+    return setTodos(updatedTodos)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>10Min Todo App</h1>
+      <input type="text" value={text} onChange={e => setText(e.target.value)} />
+      <button onClick={add}>+</button>
+      <ol>
+      {todos.map((todo, i) => {
+        return (<>
+        <li key={i} >{todo}</li>
+        <button onClick={() => deleteTodo(i)}>-</button>
+        </>)
+      })}
+      </ol>
     </div>
   );
 }
